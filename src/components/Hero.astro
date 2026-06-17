@@ -1,0 +1,103 @@
+---
+interface Props {
+  lang: "es" | "en";
+}
+
+const { lang } = Astro.props;
+
+const content = {
+  es: {
+    greeting: "Hola, mi nombre es",
+    role: "Ingeniero de Sistemas",
+    tagline: "Construyo soluciones de alto rendimiento que impulsan negocios.",
+    description:
+      "Especializado en el ciclo de vida completo de producto, desde el diseño de arquitectura lógica hasta el despliegue optimizado. Mi enfoque combina código limpio con rendimiento extremo.",
+    ctaPrimary: "Ver Proyectos",
+    ctaSecondary: "Descargar CV",
+    stackTitle: "Tecnologías del Portfolio:",
+  },
+  en: {
+    greeting: "Hi, my name is",
+    role: "Systems Engineer",
+    tagline: "Building high-performance solutions that drive business value.",
+    description:
+      "Specialized in the full product lifecycle, from logical architecture design to optimized deployment. My approach pairs clean code with extreme performance.",
+    ctaPrimary: "View Projects",
+    ctaSecondary: "Download CV",
+    stackTitle: "Portfolio Technologies:",
+  },
+};
+
+const t = content[lang];
+
+// Core technologies array used to map out badges dynamically
+const coreTech = [
+  "Astro",
+  "TypeScript",
+  "Github Pages"
+];
+---
+
+<section
+  class="relative min-h-[70vh] flex flex-col justify-center items-start py-12 md:py-24 max-w-4xl mx-auto px-4"
+>
+  <span
+    class="text-sm font-mono tracking-wider text-blue-600 dark:text-blue-400 font-semibold uppercase block mb-3"
+  >
+    {t.greeting}
+  </span>
+
+  <h1
+    class="text-4xl sm:text-6xl font-bold tracking-tight text-slate-900 dark:text-white mb-2"
+  >
+    Miguel Rivera
+  </h1>
+
+  <h2
+    class="text-2xl sm:text-4xl font-bold text-slate-500 dark:text-slate-400 mb-6"
+  >
+    {t.role}
+  </h2>
+
+  <p
+    class="text-lg text-slate-600 dark:text-slate-300 max-w-2xl leading-relaxed mb-8"
+  >
+    <strong class="text-slate-900 dark:text-white font-medium"
+      >{t.tagline}</strong
+    >
+    {t.description}
+  </p>
+
+  <div class="mb-10 w-full">
+    <span
+      class="text-xs font-mono font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 block mb-3"
+    >
+      {t.stackTitle}
+    </span>
+    <div class="flex flex-wrap gap-2">
+      {
+        coreTech.map((tech) => (
+          <span class="px-3 py-1 text-sm font-mono rounded bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 border border-slate-200/60 dark:border-slate-700/60 transition-colors hover:border-blue-500 dark:hover:border-blue-400">
+            {tech}
+          </span>
+        ))
+      }
+    </div>
+  </div>
+
+  <div class="flex flex-wrap gap-4">
+    <a
+      href="#projects"
+      class="px-6 py-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-medium rounded-lg shadow-sm hover:bg-slate-800 dark:hover:bg-slate-100 transition-all transform hover:-translate-y-0.5"
+    >
+      {t.ctaPrimary}
+    </a>
+    <a
+      href="/cv-tu-nombre.pdf"
+      download
+      class="px-6 py-3 bg-transparent text-slate-700 dark:text-slate-300 font-medium rounded-lg border border-slate-300 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all transform hover:-translate-y-0.5"
+    >
+      {t.ctaSecondary}
+    </a>
+  </div>
+</section>
