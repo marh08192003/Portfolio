@@ -1,6 +1,6 @@
 ---
 import { getCollection, type CollectionEntry } from "astro:content";
-import { techColors, defaultTechColor } from "../utils/techColors"; // Clean import!
+import { techColors, defaultTechColor } from "../utils/techColors";
 
 type Project = CollectionEntry<"projects">;
 
@@ -16,6 +16,10 @@ const projects = (await getCollection("projects"))
     (a, b) =>
       Number(b.data.isFeatured ?? false) - Number(a.data.isFeatured ?? false),
   );
+
+const allTechs = [
+  ...new Set(projects.flatMap((project) => project.data.tags)),
+].sort();
 ---
 
 <section
@@ -23,19 +27,83 @@ const projects = (await getCollection("projects"))
   class="py-16 border-t border-slate-100 dark:border-slate-800/60"
 >
   <div class="max-w-5xl mx-auto px-4 sm:px-6">
-    <h2
-      class="text-3xl font-bold tracking-tight text-slate-900 dark:text-white mb-10 flex items-center gap-3"
+    <div
+      class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-10"
     >
-      <span class="w-2 h-7 bg-emerald-500 rounded-full inline-block"></span>
-      {lang === "es" ? "Proyectos Destacados" : "Featured Projects"}
-    </h2>
+      <h2
+        class="text-3xl font-bold tracking-tight text-slate-900 dark:text-white flex items-center gap-3"
+      >
+        <span class="w-2 h-7 bg-emerald-500 rounded-full inline-block"></span>
+        {lang === "es" ? "Proyectos Destacados" : "Featured Projects"}
+      </h2>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div class="relative inline-block text-left w-full sm:w-64 z-10">
+        <button
+          type="button"
+          id="dropdown-button"
+          class="inline-flex justify-between items-center w-full rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-4 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
+          aria-expanded="false"
+          aria-haspopup="true"
+        >
+          <span id="dropdown-label" data-lang={lang}>
+            {lang === "es" ? "Filtrar por tecnología" : "Filter by technology"}
+          </span>
+          <svg
+            class="-mr-1 ml-2 h-5 w-5 text-slate-400"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+              clip-rule="evenodd"></path>
+          </svg>
+        </button>
+
+        <div
+          id="dropdown-menu"
+          class="hidden absolute right-0 mt-2 w-full origin-top-right rounded-xl bg-white dark:bg-slate-900 shadow-xl border border-slate-200 dark:border-slate-800 focus:outline-none max-h-60 overflow-y-auto p-2 space-y-1"
+          role="menu"
+        >
+          {
+            allTechs.map((tech) => (
+              <label class="flex items-center px-3 py-2 text-sm text-slate-700 dark:text-slate-300 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800/60 cursor-pointer transition-colors select-none">
+                <input
+                  type="checkbox"
+                  value={tech}
+                  class="tech-checkbox h-4 w-4 rounded border-slate-300 dark:border-slate-700 text-emerald-600 focus:ring-emerald-500 bg-transparent mr-3"
+                />
+                <span class="flex-1">{tech}</span>
+              </label>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+
+    <div
+      id="no-projects-message"
+      class="hidden text-center py-12 border border-dashed border-slate-200 dark:border-slate-800 rounded-2xl"
+    >
+      <p class="text-slate-500 dark:text-slate-400 text-sm">
+        {
+          lang === "es"
+            ? "No se encontraron proyectos con las tecnologías seleccionadas."
+            : "No projects found with the selected technologies."
+        }
+      </p>
+    </div>
+
+    <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
       {
         projects.map((project: Project) => (
-          <article class="group relative flex flex-col justify-between p-6 bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-2xl hover:shadow-xl hover:border-emerald-500/30 dark:hover:border-emerald-500/20 transition-all duration-300">
+          <article
+            class="project-card group relative flex flex-col justify-between p-6 bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-2xl hover:shadow-xl hover:border-emerald-500/30 dark:hover:border-emerald-500/20 transition-all duration-300"
+            data-tags={JSON.stringify(project.data.tags)}
+          >
             <div>
-              {/* Featured Badge or Status */}
+              {/* Featured Badge */}
               <div class="flex items-center justify-between mb-4">
                 {project.data.isFeatured && (
                   <span class="text-xs font-medium text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-500/10 px-2.5 py-1 rounded-md">
@@ -51,8 +119,6 @@ const projects = (await getCollection("projects"))
 
               {/* Business Description */}
               <div class="mt-3 relative min-h-[4.5rem]">
-                {" "}
-                {/* min-h keeps layout stable */}
                 <p
                   class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed line-clamp-3 group-hover:line-clamp-none transition-all duration-300"
                   title={project.data.businessDescription}
@@ -61,7 +127,7 @@ const projects = (await getCollection("projects"))
                 </p>
               </div>
 
-              {/* Tech Stack Tags with dynamic coloring */}
+              {/* Tech Stack Tags */}
               <div class="flex flex-wrap gap-1.5 mt-5">
                 {project.data.tags.map((tag: string) => (
                   <span
@@ -102,3 +168,100 @@ const projects = (await getCollection("projects"))
     </div>
   </div>
 </section>
+
+<script>
+  function initFilter() {
+    const dropdownButton = document.getElementById("dropdown-button");
+    const dropdownMenu = document.getElementById("dropdown-menu");
+    const dropdownLabel = document.getElementById("dropdown-label");
+    const checkboxes = document.querySelectorAll(
+      ".tech-checkbox",
+    ) as NodeListOf<HTMLInputElement>;
+    const projectCards = document.querySelectorAll(
+      ".project-card",
+    ) as NodeListOf<HTMLElement>;
+    const noProjectsMessage = document.getElementById("no-projects-message");
+
+    // Initial safety guards
+    if (!dropdownButton || !dropdownMenu || !dropdownLabel) return;
+
+    // 1. Toggle dropdown menu
+    dropdownButton.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const isExpanded =
+        dropdownButton.getAttribute("aria-expanded") === "true";
+      dropdownButton.setAttribute(
+        "aria-expanded",
+        !isExpanded ? "true" : "false",
+      );
+      dropdownMenu.classList.toggle("hidden");
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener("click", (e) => {
+      if (
+        !dropdownButton.contains(e.target as Node) &&
+        !dropdownMenu.contains(e.target as Node)
+      ) {
+        dropdownButton.setAttribute("aria-expanded", "false");
+        dropdownMenu.classList.add("hidden");
+      }
+    });
+
+    // 2. Reactive filter logic
+    function filterProjects() {
+      // Internal re-check or assertion so TypeScript stays happy within this scope
+      if (!dropdownLabel) return;
+
+      // Obtener un array con los valores de las tecnologías marcadas
+      const selectedTechs = Array.from(checkboxes)
+        .filter((cb) => cb.checked)
+        .map((cb) => cb.value);
+
+      let visibleCount = 0;
+
+      projectCards.forEach((card) => {
+        const cardTags: string[] = JSON.parse(
+          card.getAttribute("data-tags") || "[]",
+        );
+
+        const matches =
+          selectedTechs.length === 0 ||
+          selectedTechs.some((tech) => cardTags.includes(tech));
+
+        if (matches) {
+          card.classList.remove("hidden");
+          visibleCount++;
+        } else {
+          card.classList.add("hidden");
+        }
+      });
+
+      // Ahora el compilador está 100% seguro en el sub-scope
+      if (selectedTechs.length === 0) {
+        dropdownLabel.textContent =
+          dropdownLabel.getAttribute("data-lang") === "en"
+            ? "Filter by technology"
+            : "Filtrar por tecnología";
+      } else {
+        dropdownLabel.textContent = `${selectedTechs.length} ${selectedTechs.length === 1 ? "seleccionada" : "seleccionadas"}`;
+      }
+
+      // Manejar el estado vacío (No Results UX)
+      if (visibleCount === 0) {
+        noProjectsMessage?.classList.remove("hidden");
+      } else {
+        noProjectsMessage?.classList.add("hidden");
+      }
+    }
+
+    // Escuchar el evento de cambio en cada checkbox
+    checkboxes.forEach((cb) => {
+      cb.addEventListener("change", filterProjects);
+    });
+  }
+
+  // Ejecutar en la carga inicial y soporte para transiciones de Astro (View Transitions)
+  initFilter();
+  document.addEventListener("astro:page-load", initFilter);
+</script>
