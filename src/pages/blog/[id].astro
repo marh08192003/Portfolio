@@ -2,6 +2,7 @@
 import Layout from "../../layouts/Layout.astro";
 import { getCollection, render, type CollectionEntry } from "astro:content";
 import { techColors, defaultTechColor } from "../../utils/techColors";
+import Header from "../../components/Header.astro";
 
 type Project = CollectionEntry<"projects">;
 
@@ -25,9 +26,18 @@ interface Props {
 const { project } = Astro.props as Props;
 const { Content } = await render(project);
 const lang = project.data.lang;
+
+const targetId =
+  lang === "es"
+    ? project.id.replace(/^es_/, "en_")
+    : project.id.replace(/^en_/, "es_");
+
+const alternateLangHref = `/blog/${targetId}`;
 ---
 
 <Layout title={`${project.data.title} | Case Study`} lang={lang}>
+  {/* Pasamos el enlace alternativo calculado dinámicamente */}
+  <Header lang={lang} toggleHref={alternateLangHref} />
   <main
     class="py-14 md:py-24 bg-slate-50 dark:bg-slate-950 min-h-screen selection:bg-emerald-500/20"
   >
