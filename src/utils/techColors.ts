@@ -34,6 +34,17 @@ export const techColors: Record<string, string> = {
     "bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-100 dark:border-emerald-500/20",
   "Mobile Gaming":
     "bg-violet-50 dark:bg-violet-500/10 text-violet-600 dark:text-violet-400 border-violet-100 dark:border-violet-500/20",
+  Java: "bg-red-50 dark:bg-red-500/10 text-orange-700 dark:text-orange-400 border-red-100 dark:border-red-500/15",
+  MySQL:
+    "bg-sky-50 dark:bg-sky-500/10 text-sky-700 dark:text-sky-300 border-sky-100 dark:border-sky-500/15",
+  "REST API":
+    "bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-100 dark:border-amber-500/20",
+  "VS Code Extension":
+    "bg-blue-50 dark:bg-blue-500/10 text-sky-500 dark:text-sky-400 border-blue-100 dark:border-blue-500/15",
+  "D3.js":
+    "bg-orange-50 dark:bg-orange-500/10 text-orange-600 dark:text-orange-500 border-orange-100 dark:border-orange-500/15",
+  "Node.js":
+    "bg-green-50 dark:bg-green-500/10 text-green-700 dark:text-green-400 border-green-100 dark:border-green-500/15",
 };
 
 export const defaultTechColor =
