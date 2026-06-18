@@ -15,6 +15,7 @@ const content = {
     ctaPrimary: "Ver Proyectos",
     ctaSecondary: "Descargar CV",
     stackTitle: "Tecnologías del Portfolio:",
+    cvPath: "/cv/RiveraMiguel_CV.pdf",
   },
   en: {
     greeting: "Hi, my name is",
@@ -25,17 +26,14 @@ const content = {
     ctaPrimary: "View Projects",
     ctaSecondary: "Download CV",
     stackTitle: "Portfolio Technologies:",
+    cvPath: "/cv/en_RiveraMiguel_CV.pdf",
   },
 };
 
 const t = content[lang];
 
 // Core technologies array used to map out badges dynamically
-const coreTech = [
-  "Astro",
-  "TypeScript",
-  "Github Pages"
-];
+const coreTech = ["Astro", "TypeScript", "Github Pages"];
 ---
 
 <section
@@ -93,7 +91,7 @@ const coreTech = [
       {t.ctaPrimary}
     </a>
     <a
-      href="/cv-tu-nombre.pdf"
+      href={t.cvPath}
       download
       class="px-6 py-3 bg-transparent text-slate-700 dark:text-slate-300 font-medium rounded-lg border border-slate-300 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all transform hover:-translate-y-0.5"
     >
