@@ -18,7 +18,10 @@ const projects = (await getCollection("projects"))
   );
 ---
 
-<section id="projects" class="py-16 border-t border-slate-100 dark:border-slate-800/60">
+<section
+  id="projects"
+  class="py-16 border-t border-slate-100 dark:border-slate-800/60"
+>
   <div class="max-w-5xl mx-auto px-4 sm:px-6">
     <h2
       class="text-3xl font-bold tracking-tight text-slate-900 dark:text-white mb-10 flex items-center gap-3"
@@ -47,9 +50,16 @@ const projects = (await getCollection("projects"))
               </h3>
 
               {/* Business Description */}
-              <p class="mt-3 text-slate-600 dark:text-slate-400 text-sm leading-relaxed line-clamp-3">
-                {project.data.businessDescription}
-              </p>
+              <div class="mt-3 relative min-h-[4.5rem]">
+                {" "}
+                {/* min-h keeps layout stable */}
+                <p
+                  class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed line-clamp-3 group-hover:line-clamp-none transition-all duration-300"
+                  title={project.data.businessDescription}
+                >
+                  {project.data.businessDescription}
+                </p>
+              </div>
 
               {/* Tech Stack Tags with dynamic coloring */}
               <div class="flex flex-wrap gap-1.5 mt-5">
