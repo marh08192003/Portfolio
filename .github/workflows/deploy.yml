@@ -30,13 +30,12 @@ jobs:
         with:
           node-version: 22
 
-      # En lugar de usar pnpm/action-setup, instalamos pnpm globalmente vía npm
-      # Esto suele resolver el error de "packages field missing"
       - name: Install pnpm globally
         run: npm install -g pnpm@9
 
       - name: Install dependencies
-        run: pnpm install --no-frozen-lockfile
+        # Usamos --force para obligar a pnpm a refrescar el linkado de paquetes
+        run: pnpm install --force
 
       - name: Build with Astro
         run: pnpm run build
