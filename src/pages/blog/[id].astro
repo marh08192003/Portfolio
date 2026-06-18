@@ -1,0 +1,160 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { getCollection, render, type CollectionEntry } from "astro:content";
+import { techColors, defaultTechColor } from "../../utils/techColors";
+
+type Project = CollectionEntry<"projects">;
+
+export async function getStaticPaths() {
+  const projects = await getCollection("projects");
+
+  return projects.map((project) => ({
+    params: {
+      id: project.id,
+    },
+    props: {
+      project,
+    },
+  }));
+}
+
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props as Props;
+const { Content } = await render(project);
+const lang = project.data.lang;
+---
+
+<Layout title={`${project.data.title} | Case Study`} lang={lang}>
+  <main
+    class="py-14 md:py-24 bg-slate-50 dark:bg-slate-950 min-h-screen selection:bg-emerald-500/20"
+  >
+    <div class="max-w-3xl mx-auto px-4 sm:px-6">
+      {/* Botón de regreso minimalista con animación */}
+      <a
+        href={lang === "es" ? "/" : "/en"}
+        class="inline-flex items-center text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500 hover:text-emerald-500 dark:hover:text-emerald-400 mb-10 transition-colors group"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-4 w-4 mr-2 transform group-hover:-translate-x-1 transition-transform"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2.5"
+            d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+        </svg>
+        {lang === "es" ? "Volver al inicio" : "Back to home"}
+      </a>
+
+      {/* Cabecera del Caso de Estudio */}
+      <header
+        class="pb-8 mb-10 border-b border-slate-200/60 dark:border-slate-800/60"
+      >
+        <div class="flex items-center gap-3 mb-4">
+          {
+            project.data.isFeatured && (
+              <span class="inline-flex items-center gap-1 text-[11px] font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-500/10 px-2.5 py-1 rounded-md border border-emerald-200/40 dark:border-emerald-500/20">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                {lang === "es" ? "Proyecto Destacado" : "Featured Case Study"}
+              </span>
+            )
+          }
+        </div>
+
+        <h1
+          class="text-4xl sm:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-tight"
+        >
+          {project.data.title}
+        </h1>
+
+        <p
+          class="mt-4 text-lg text-slate-600 dark:text-slate-400 leading-relaxed font-normal border-l-2 border-slate-200 dark:border-slate-800 pl-4 italic"
+        >
+          {project.data.businessDescription}
+        </p>
+
+        {/* Tags con transiciones suaves */}
+        <div class="flex flex-wrap gap-2 mt-6">
+          {
+            project.data.tags.map((tag: string) => (
+              <span
+                class={`text-xs font-semibold px-3 py-1 rounded-full border shadow-sm transition-all duration-300 hover:scale-105 ${techColors[tag] || defaultTechColor}`}
+              >
+                {tag}
+              </span>
+            ))
+          }
+        </div>
+      </header>
+
+      {/* Sección de Repositorios Estilizada como Tarjeta Dev */}
+      {
+        project.data.repositories && project.data.repositories.length > 0 && (
+          <section class="bg-white dark:bg-slate-900/40 backdrop-blur-sm border border-slate-200 dark:border-slate-800/80 p-6 rounded-2xl shadow-sm mb-12">
+            <h2 class="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-4 flex items-center gap-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-4 w-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
+                />
+              </svg>
+              {lang === "es"
+                ? "Código Fuente & Repositorio"
+                : "Source Code & Repository"}
+            </h2>
+            <div class="grid grid-cols-1 gap-3">
+              {project.data.repositories.map((repo) => (
+                <a
+                  href={repo.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="flex items-center justify-between p-3.5 text-sm font-medium text-slate-700 dark:text-slate-300 bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800/60 rounded-xl transition-all hover:border-emerald-500/40 dark:hover:border-emerald-500/30 hover:bg-emerald-50/20 dark:hover:bg-emerald-950/10 group"
+                >
+                  <div class="flex items-center gap-3">
+                    <span class="flex w-2 h-2 bg-emerald-500 rounded-full" />
+                    <span>{repo.label}</span>
+                  </div>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-4 w-4 text-slate-400 group-hover:text-emerald-500 transition-colors"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M14 5l7 7m0 0l-7 7m7-7H3"
+                    />
+                  </svg>
+                </a>
+              ))}
+            </div>
+          </section>
+        )
+      }
+
+      <section
+        class="project-content max-w-none text-slate-600 dark:text-slate-400"
+      >
+        <Content />
+      </section>
+    </div>
+  </main>
+</Layout>

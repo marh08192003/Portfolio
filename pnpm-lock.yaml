@@ -12,8 +12,8 @@ importers:
         specifier: ^4.3.1
         version: 4.3.1(vite@7.3.5(jiti@2.7.0)(lightningcss@1.32.0))
       astro:
-        specifier: ^6.4.7
-        version: 6.4.7(jiti@2.7.0)(lightningcss@1.32.0)(rollup@4.62.0)
+        specifier: ^6.4.8
+        version: 6.4.8(jiti@2.7.0)(lightningcss@1.32.0)(rollup@4.62.0)
       tailwindcss:
         specifier: ^4.3.1
         version: 4.3.1
@@ -707,8 +707,8 @@ packages:
   array-iterate@2.0.1:
     resolution: {integrity: sha512-I1jXZMjAgCMmxT4qxXfPXa6SthSoE8h6gkSI9BGGNv8mP8G/v0blc+qFnZu6K42vTOiuME596QaLO0TP3Lk0xg==}
 
-  astro@6.4.7:
-    resolution: {integrity: sha512-5vsXx0H52u23Jpshs9tM81D03Tb3Oh2Vt2Zo0bpqjXN+njkAWjFyGjTfmWJLAcrCQd9Q+iWB1eqfhR1sZJEaUA==}
+  astro@6.4.8:
+    resolution: {integrity: sha512-KK5lX90uU9EeVaTjINyj3sy9/NFXVa59aowaqbWBDDKLXZh4rr7GwIaCFYVetE22MJtsCNFerQXn0vlCLmpP/Q==}
     engines: {node: '>=22.12.0', npm: '>=9.6.5', pnpm: '>=7.1.0'}
     hasBin: true
 
@@ -2132,7 +2132,7 @@ snapshots:
 
   array-iterate@2.0.1: {}
 
-  astro@6.4.7(jiti@2.7.0)(lightningcss@1.32.0)(rollup@4.62.0):
+  astro@6.4.8(jiti@2.7.0)(lightningcss@1.32.0)(rollup@4.62.0):
     dependencies:
       '@astrojs/compiler': 4.0.0
       '@astrojs/internal-helpers': 0.10.0
