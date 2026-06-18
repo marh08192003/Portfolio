@@ -34,13 +34,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
-          # Se elimina 'cache: "pnpm"' para evitar conflictos de path en el runner
-
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
 
       - name: Install dependencies
-        # Se añade --no-frozen-lockfile para asegurar una instalación limpia
         run: pnpm install --no-frozen-lockfile
 
       - name: Build with Astro
@@ -52,12 +47,11 @@ jobs:
           path: ${{ env.BUILD_PATH }}/dist
 
   deploy:
+    needs: build
+    runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    needs: build
-    runs-on: ubuntu-latest
-    name: Deploy to GitHub Pages
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
