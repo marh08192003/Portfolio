@@ -4,8 +4,11 @@ lang: "es"
 businessDescription: "Extensión para Visual Studio Code diseñada para escanear y mapear la arquitectura de proyectos Angular Standalone en tiempo real. Genera árboles jerárquicos interactivos utilizando D3.js para reducir la carga cognitiva en auditorías de código y refactorizaciones."
 tags: ["TypeScript", "VS Code Extension", "D3.js", "Angular", "Node.js"]
 repositories:
-  - label: "Marketplace & Repositorio"
+  - label: "Repositorio"
     url: "https://github.com/marh08192003/angular-tree"
+  - label: "Marketplace"
+    url: "https://marketplace.visualstudio.com/items?itemName=Marh0819.angular-tree"
+    
 ---
 
 ## 📌 Visión General del Proyecto

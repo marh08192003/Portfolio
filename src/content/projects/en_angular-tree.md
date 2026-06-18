@@ -6,6 +6,8 @@ tags: ["TypeScript", "VS Code Extension", "D3.js", "Angular", "Node.js"]
 repositories:
   - label: "Marketplace & Repository"
     url: "https://github.com/marh08192003/angular-tree"
+  - label: "Marketplace"
+    url: "https://marketplace.visualstudio.com/items?itemName=Marh0819.angular-tree"
 ---
 
 ## 📌 Project Overview
