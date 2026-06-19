@@ -7,13 +7,13 @@ interface Props {
 const { lang, toggleHref } = Astro.props;
 
 const navItems = {
-  es: [{ name: "Proyectos", href: "/#projects" }],
-  en: [{ name: "Projects", href: "/en#projects" }],
+  es: [{ name: "Proyectos", href: "/Portfolio/#projects" }],
+  en: [{ name: "Projects", href: "/Portfolio/en#projects" }],
 };
 
 const currentNav = navItems[lang];
 
-const toggleLangHref = toggleHref || (lang === "es" ? "/en" : "/");
+const toggleLangHref = toggleHref || (lang === "es" ? "/Portfolio/en" : "/Portfolio/");
 ---
 
 <header

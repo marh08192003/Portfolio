@@ -10,7 +10,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "lighthouse": "astro build && node -e \"const { spawn } = require('child_process'); const p = spawn('npx', ['astro', 'preview'], { shell: true }); setTimeout(() => { spawn('npx', ['lighthouse', 'http://localhost:4321', '--view'], { stdio: 'inherit', shell: true }).on('close', () => p.kill()); }, 3000);\"",
+    "lighthouse": "astro build && node -e \"const { spawn } = require('child_process'); const p = spawn('npx', ['astro', 'preview'], { shell: true }); setTimeout(() => { spawn('npx', ['lighthouse', 'http://localhost:4321/Portfolio', '--view'], { stdio: 'inherit', shell: true }).on('close', () => p.kill()); }, 3000);\"",
     "lint": "eslint ."
   },
   "dependencies": {
