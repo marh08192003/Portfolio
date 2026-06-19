@@ -23,9 +23,8 @@ jobs:
           node-version: 22
 
       - name: Install dependencies
-        # Forzamos npm y borramos cualquier rastro de pnpm
         run: |
-          rm -f pnpm-lock.yaml pnpm-workspace.yaml
+          rm -f pnpm-lock.yaml pnpm-workspace.yaml package-lock.json
           npm install
 
       - name: Build with Astro
