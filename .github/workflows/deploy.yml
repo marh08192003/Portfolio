@@ -20,11 +20,9 @@ jobs:
       - name: Install, build, and upload your site
         uses: withastro/action@v2
         with:
-          # Forzamos Node 22 para que pnpm v11 no falle
           node-version: 22
-          # Forzamos una versión específica de pnpm compatible con Node 20/22
-          # y que no intente usar el módulo nativo de sqlite que está fallando
-          package-manager: pnpm@9.15.0 
+          package-manager: pnpm@9.15.0
+          cache: false
 
   deploy:
     needs: build
