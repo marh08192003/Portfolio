@@ -14,15 +14,27 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout your repository
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install, build, and upload your site
-        uses: withastro/action@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 22
-          package-manager: pnpm@9.15.0
-          cache: false
+
+      - name: Install dependencies
+        # Forzamos npm y borramos cualquier rastro de pnpm
+        run: |
+          rm -f pnpm-lock.yaml pnpm-workspace.yaml
+          npm install
+
+      - name: Build with Astro
+        run: npm run build
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
 
   deploy:
     needs: build
