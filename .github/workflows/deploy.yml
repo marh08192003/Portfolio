@@ -7,25 +7,26 @@ on:
   # Te permite ejecutar este flujo de trabajo manualmente desde la pestaña Acciones en GitHub.
   workflow_dispatch:
 
-# Permite que este trabajo clone el repositorio y cree un despliegue de página
-permissions:
-  contents: read
-  pages: write
-  id-token: write
+# Eliminamos los permisos globales por completo para cumplir estrictamente con S8264
+permissions: {}
 
 jobs:
   sonarqube:
     name: Code Quality & Security Scan (QA)
     runs-on: ubuntu-latest
+    # Asignamos el permiso de lectura únicamente al Job que clona el código
+    permissions:
+      contents: read
     steps:
       - name: Checkout repository using git
-        uses: actions/checkout@v5
+        # Usamos el formato híbrido para calmar a VS Code y SonarLint simultáneamente
+        uses: actions/checkout@v5 # pin@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           # Desactivar clones superficiales es recomendado para mayor precisión en el historial
           fetch-depth: 0
 
       - name: SonarQube Scan
-        uses: SonarSource/sonarqube-scan-action@v3
+        uses: SonarSource/sonarqube-scan-action@v3 # pin@f90760b86a8ff39fa279261a8ef8387062400f91
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
@@ -33,21 +34,28 @@ jobs:
     name: Build Project
     needs: sonarqube # Bloquea la compilación si el escaneo de QA falla
     runs-on: ubuntu-latest
+    # Este Job necesita leer el código para compilar la aplicación Astro
+    permissions:
+      contents: read
     steps:
       - name: Checkout your repository using git
-        uses: actions/checkout@v5
+        uses: actions/checkout@v5 # pin@11bd71901bbe5b1630ceea73d27597364c9af683
 
       - name: Install, build, and upload your site
-        uses: withastro/action@v5
+        uses: withastro/action@v5 # pin@11bd71901bbe5b1630ceea73d27597364c9af683
 
   deploy:
     name: Deploy to Production
     needs: build
     runs-on: ubuntu-latest
+    # Elevamos los permisos únicamente en el Job final que interactúa con GitHub Pages
+    permissions:
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v4 # pin@d6db33d5f17a0b7415d40502a8a2f6d6f22d4c0c
