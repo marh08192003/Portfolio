@@ -84,8 +84,8 @@
 }
 
 .project-content code {
-  color: #059669;
-  background-color: rgba(16, 185, 129, 0.1);
+  color: #047857;
+  background-color: rgba(16, 185, 129, 0.08);
   padding: 0.125rem 0.375rem;
   border-radius: 0.375rem;
   font-family: monospace;
@@ -93,6 +93,7 @@
 }
 .dark .project-content code {
   color: #34d399;
+  background-color: rgba(52, 211, 153, 0.1);
 }
 
 .project-content hr {
