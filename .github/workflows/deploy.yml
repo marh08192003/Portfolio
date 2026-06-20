@@ -26,7 +26,11 @@ jobs:
           fetch-depth: 0
 
       - name: SonarQube Scan
-        uses: SonarSource/sonarqube-scan-action@v3 # pin@f90760b86a8ff39fa279261a8ef8387062400f91
+        uses: SonarSource/sonarqube-scan-action@v3 # pin@f90760b86a8ff39fa279aerf8387062400f91
+        with:
+          # Fuerza a GitHub Actions a esperar el veredicto final del Quality Gate antes de seguir
+          args: >
+            -Dsonar.qualitygate.wait=true
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
