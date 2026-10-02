@@ -19,14 +19,13 @@ jobs:
       contents: read
     steps:
       - name: Checkout repository using git
-        # Usamos el formato híbrido para calmar a VS Code y SonarLint simultáneamente
         uses: actions/checkout@v5 # pin@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           # Desactivar clones superficiales es recomendado para mayor precisión en el historial
           fetch-depth: 0
 
       - name: SonarQube Scan
-        uses: SonarSource/sonarqube-scan-action@v3 # pin@f90760b86a8ff39fa279aerf8387062400f91
+        uses: SonarSource/sonarqube-scan-action@v5
         with:
           # Fuerza a GitHub Actions a esperar el veredicto final del Quality Gate antes de seguir
           args: >
